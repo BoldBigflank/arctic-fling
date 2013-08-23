@@ -13,6 +13,8 @@
 
 #import "RootViewController.h"
 
+#import <Rdio/Rdio.h>
+
 @implementation AppController
 
 @synthesize window;
@@ -26,6 +28,9 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    
+    Rdio *rdio = [[Rdio alloc] initWithConsumerKey:@"wrte8uqshz9j2wecxvet4gtp" andSecret:@"HSmBTNdZPv" delegate:nil];
+    [rdio.player playSource:@"rr164292"];
     // Override point for customization after application launch.
 
     // Add the view controller's view to the window and display.
@@ -38,6 +43,8 @@ static AppDelegate s_sharedApplication;
                                    multiSampling: NO
                                  numberOfSamples:0 ];
 
+    __glView.multipleTouchEnabled = true;
+    
     // Use RootViewController manage EAGLView
     viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
     viewController.wantsFullScreenLayout = YES;
