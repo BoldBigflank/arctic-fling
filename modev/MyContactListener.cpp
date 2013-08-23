@@ -13,8 +13,8 @@ USING_NS_CC;
 
 void MyContactListener::EndContact(b2Contact* contact)
 {
-    b2Fixture* a = contact->GetFixtureA();
-    b2Fixture* b = contact->GetFixtureB();
+//    b2Fixture* a = contact->GetFixtureA();
+//    b2Fixture* b = contact->GetFixtureB();
     CCLOG("Contact ended");
     // If one of them is the ground, delete the other
     MyContact myContact = { contact->GetFixtureA(), contact->GetFixtureB() };
@@ -39,8 +39,8 @@ void MyContactListener::BeginContact(b2Contact* contact)
 {
     // We need to copy out the data because the b2Contact passed in
     // is reused.
-    b2Fixture* a = contact->GetFixtureA();
-    b2Fixture* b = contact->GetFixtureB();
+//    b2Fixture* a = contact->GetFixtureA();
+//    b2Fixture* b = contact->GetFixtureB();
     CCLOG("Contact begun");
     
     

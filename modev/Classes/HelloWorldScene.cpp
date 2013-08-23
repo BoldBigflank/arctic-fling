@@ -14,7 +14,7 @@ using namespace cocos2d;
 using namespace CocosDenshion;
 
 #define PTM_RATIO 32
-#define BASE_MAX_TORQUE 20
+#define BASE_MAX_TORQUE 30
 #define MAX_ANGLE (M_PI / 3.0)
 
 enum {
@@ -73,6 +73,7 @@ CCAffineTransform PhysicsSprite::nodeToParentTransform(void)
 
 HelloWorld::HelloWorld()
 {
+    
     GB2ShapeCache *sc = GB2ShapeCache::sharedGB2ShapeCache();
     sc->addShapesWithFile("shapes.plist");
     
@@ -81,17 +82,19 @@ HelloWorld::HelloWorld()
     setAccelerometerEnabled( true );
 
     CCSize s = CCDirector::sharedDirector()->getWinSize();
+    CCSprite *stage = new CCSprite();
+    stage->initWithFile("stage.png");
+    stage->setPosition(ccp(s.width/2.0, s.height/2.0));
+    addChild(stage);
+    
+    
     // init physics
     this->initPhysics();
 
-    CCSpriteBatchNode *parent = CCSpriteBatchNode::create("blocks.png", 100);
-    m_pSpriteTexture = parent->getTexture();
-
-    addChild(parent, 0, kTagParentNode);
-
-    
-
-    addNewSpriteAtPosition("bearing", ccp(s.width/2, s.height/2), CCPointZero);
+//    CCSpriteBatchNode *parent = CCSpriteBatchNode::create("blocks.png", 100);
+//    m_pSpriteTexture = parent->getTexture();
+//
+//    addChild(parent, 0, kTagParentNode);
 
     // Base 1
     base1 = addNewSpriteAtPosition("fullModel", ccp(s.width/4.0, s.height/2), CCPointZero);
@@ -132,6 +135,11 @@ HelloWorld::HelloWorld()
     addChild(label, 0);
     label->setColor(ccc3(0,0,255));
     label->setPosition(ccp( s.width/2, s.height-50));
+    
+    addNewSpriteAtPosition("icicleRight-sml", ccp(s.width/2, s.height/3), CCPointZero);
+    addNewSpriteAtPosition("icicleRight-med", ccp(s.width/2, 2.0* s.height/3), CCPointZero);
+    addNewSpriteAtPosition("icicleRight-sml", ccp(s.width/2, s.height/2), CCPointZero);
+    
     
     // Start a new game (put a button here)
     gameInProgress = true;
@@ -240,40 +248,6 @@ void HelloWorld::draw()
 b2Body* HelloWorld::addNewSpriteAtPosition(string name, CCPoint p, CCPoint velocity)
 {
     CCLOG("Add sprite %0.2f x %02.f",p.x,p.y);
-//    CCNode* parent = getChildByTag(kTagParentNode);
-//    
-//    //We have a 64x64 sprite sheet with 4 different 32x32 images.  The following code is
-//    //just randomly picking one of the images
-//    int idx = (CCRANDOM_0_1() > .5 ? 0:1);
-//    int idy = (CCRANDOM_0_1() > .5 ? 0:1);
-//    PhysicsSprite *sprite = new PhysicsSprite();
-//    sprite->initWithTexture(m_pSpriteTexture, CCRectMake(32 * idx,32 * idy,32,32));
-//    sprite->autorelease();
-//    
-//    parent->addChild(sprite);
-//    
-//    sprite->setPosition( CCPointMake( p.x, p.y) );
-//    
-//    // Define the dynamic body.
-//    //Set up a 1m squared box in the physics world
-//    b2BodyDef bodyDef;
-//    bodyDef.type = b2_dynamicBody;
-//    bodyDef.position.Set(p.x/PTM_RATIO, p.y/PTM_RATIO);
-//    
-//    b2Body *body = world->CreateBody(&bodyDef);
-//    
-//    // Define another box shape for our dynamic body.
-//    b2PolygonShape dynamicBox;
-//    dynamicBox.SetAsBox(.5f, .5f);//These are mid points for our 1m box
-//    
-//    // Define the dynamic body fixture.
-//    b2FixtureDef fixtureDef;
-//    fixtureDef.shape = &dynamicBox;    
-//    fixtureDef.density = 1.0f;
-//    fixtureDef.friction = 0.3f;
-//    body->CreateFixture(&fixtureDef);
-//    
-//    sprite->setPhysicsBody(body);
 
     CCSprite *sprite = CCSprite::create((name+".png").c_str());
     
